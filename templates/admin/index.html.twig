@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% for note in blog %}
+        {{ note.title }}
+        {{ note.description }}
+        <br>
+    {% endfor %}
+
+{% endblock %}
