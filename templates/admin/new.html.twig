@@ -1,7 +1,13 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Write a blog{% endblock %}
+
 {% block body %}
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+    <div id="content">
+        <div id="form">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
 {% endblock %}

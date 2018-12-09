@@ -1,11 +1,20 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Read blog{% endblock %}
+
 {% block body %}
 
-    {% for note in blog %}
-        {{ note.title }}
-        {{ note.description }}
-        <br>
-    {% endfor %}
+    <div id="post">
 
+        {% for note in blog %}
+            <div class="post_title">
+                <h4>{{ note.title }} </h4>
+                <a class="btn" name="btn_edit">Edit</a>
+                <a class="btn" name="btn_delete">Delete</a>
+            </div>
+            <p>{{ note.description }}</p>
+
+            <hr>
+        {% endfor %}
+    </div>
 {% endblock %}

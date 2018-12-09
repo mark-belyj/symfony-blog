@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class BlogFormType extends AbstractType
+class BlogFormEditDeleteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -27,10 +27,6 @@ class BlogFormType extends AbstractType
             ->add('create', SubmitType::class, [
                 'label' => 'Send',
                 'attr' => array('class' => 'form_subl_class')
-            ])
-            ->add('edit', SubmitType::class, [
-                'label' => 'edit',
-                'attr' => array('class' => 'form_subl_edit_class')
             ])
         ;
     }

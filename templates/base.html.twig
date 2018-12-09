@@ -2,11 +2,33 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+        <title>{% block title %}{% endblock %}</title>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+            <link rel="stylesheet" src="/build/app.css">
+        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <header>
+            <h3>
+                <span>My</span>BLOG
+            </h3>
+            <nav>
+                <a href="{{ path('home') }}">Read blog</a>
+                <a href="{{ path('write') }}">Write blog</a>
+            </nav>
+        </header>
+        <div id="content">
+            {% block body %}
+            {% endblock %}
+        </div>
+
+
+        {% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    <script src="/build/runtime.js"></script>
+    <script src="/build/app.js"></script>
+{% endblock %}
     </body>
 </html>
