@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Blog;
@@ -29,39 +30,56 @@ class AdminController extends AbstractController
         $blog = new Blog();
         $form = $this->createForm('App\Form\BlogFormType', $blog);
         $form->handleRequest($request);
-        if  ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($blog);
             $em->flush();
+            return $this->redirectToRoute('home');
         }
         return $this->render('admin/new.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
-
     /**
-     * @Route("/edit/{id}", name="edit")
+     * @Route("/post/{id}/edit", name="app_post_edit")
      */
-    public function edit($id) {
-        $repository = $this->getDoctrine()->getManager()->getRepository('App:Blog');
-        $blog = $repository->find($id);
+    public function editpost(Request $request, Blog $post)
+    {
+        $form = $this->createForm('App\Form\BlogFormType', $post);
+        $delete_form = $this
+            ->get('form.factory')
+            ->createNamedBuilder("delete_form")
+            ->add('delete', SubmitType::class, [
+                'label' => 'Delete',
+                'attr' => [
+                    'class' => 'btn_del',
+                    'onclick' => 'return confirm(\'Уверены, что хотите удалить?\');'
+                ],
+            ])
+            ->getForm();
+        $delete_form->handleRequest($request);
+        if ($delete_form->isSubmitted() && $delete_form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($post);
+            $em->flush();
+            return $this->redirectToRoute('home');
+        }
 
-        $blog->setName('New product name!');
-        $blog->flush();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
+            return $this->redirectToRoute('home');
+        //    return $this->redirectToRoute('app_post_edit', ['id' => $post->getId()]);
+        }
 
-        return $this->redirectToRoute('edit/edit.html.twig', [
-            'id' => $blog->getId()
-        ]);
-    }
-
-    /**
-     * @Route("/delete/", name="delete")
-     */
-    public function delete() {
-        $f = 'f';
-        return $this->render('delete/delete.html.twig', [
-            'f' => $f,
+        return $this->render('admin/edit.html.twig', [
+            'form' => $form->createView(),
+            'delete_form' => $delete_form->createView(),
+            'title' => $post->getTitle(),
+            'body' => $post->getDescription(),
         ]);
     }
 }

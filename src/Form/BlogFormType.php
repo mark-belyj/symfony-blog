@@ -28,10 +28,6 @@ class BlogFormType extends AbstractType
                 'label' => 'Send',
                 'attr' => array('class' => 'form_subl_class')
             ])
-            ->add('edit', SubmitType::class, [
-                'label' => 'edit',
-                'attr' => array('class' => 'form_subl_edit_class')
-            ])
         ;
     }
 

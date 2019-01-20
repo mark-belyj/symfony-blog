@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Write a blog{% endblock %}
+
+{% block body %}
+    <div id="content">
+        <div id="form">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+            {{ form_start(delete_form) }}
+            {{ form_widget(delete_form) }}
+            {{ form_end(delete_form) }}
+        </div>
+
+        </div>
+    </div>
+{% endblock %}
